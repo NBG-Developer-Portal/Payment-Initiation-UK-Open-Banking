@@ -1,0 +1,2260 @@
+{
+	"info": {
+		"_postman_id": "54bf013a-6f99-41d2-accd-91218ba1eb33",
+		"name": "UK Payment Initiation Sandbox - v.3.1.5",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sandbox",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sandboxId\":\"{{sandbox-id}}\"\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/sandbox",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sandbox"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/sandbox/{{sandbox-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sandbox",
+								"{{sandbox-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Import",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sandboxId\": \"{{sandbox-id}}\",\r\n    \"users\": [\r\n        {\r\n            \"userId\": \"REPLACE_WITH_USER_NAME\",\r\n            \"certificate\": \"\",\r\n            \"payments\": [],\r\n            \"accounts\": [\r\n                {\r\n                    \"currency\": \"EUR\",\r\n                    \"account\": \"GR3201106970000069774934603\",\r\n                    \"balance\": 1120.67\r\n                },\r\n                {\r\n                    \"currency\": \"EUR\",\r\n                    \"account\": \"GR7501102520000025275533583\",\r\n                    \"balance\": 650.94\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"idempotencies\": []\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/sandbox",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sandbox"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ac38fca2-6319-4c09-9953-661a51414b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{host}}/sandbox/{{sandbox-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sandbox",
+								"{{sandbox-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Domestic Payments",
+			"item": [
+				{
+					"name": "Create Domestic Payment Consent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2ccb82a0-c103-41dd-a11d-65baa2aedd28",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if(data.Data !== undefined){",
+									"   postman.setEnvironmentVariable(\"domestic-payment-consent-id\", data.Data.ConsentId);",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);",
+									"}",
+									"   "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"type": "text",
+								"value": "{{sandbox-id}}"
+							},
+							{
+								"key": "x-idempotency-key",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\": {\n\t\t\"Initiation\":{\n\t\t\t\"InstructionIdentification\":\"INSTRUCTION-ID\",\n\t\t\t\"EndToEndIdentification\":\"END-TO-END-ID\",\n\t\t\t\"InstructedAmount\":{\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\":\"EUR\"\n\t\t\t},\n\t\t\t\"DebtorAccount\": {\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{debtor-account}}\",\n\t\t\t\t\"Name\":\"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{domestic-creditor-account}}\",\n\t\t\t\t\"Name\":\"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"RemittanceInformation\": {\n\t\t\t\t\"Unstructured\": \"THIS IS A TRANSFER REASON\",\n\t\t\t\t\"Reference\": \"REF123\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/domestic-payment-consents",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-payment-consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Domestic Payment Consent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a45fa25b-dabf-4766-accd-a592318bd367",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if(data.Data !== undefined)",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/domestic-payment-consents/{{domestic-payment-consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-payment-consents",
+								"{{domestic-payment-consent-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Funds",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/domestic-payment-consents/{{consent-id}}/funds-confirmation",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-payment-consents",
+								"{{consent-id}}",
+								"funds-confirmation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Domestic Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "006c6e00-0c89-4fd5-a32d-a02ae9209e2a",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if (data.Data !== undefined)",
+									"   postman.setEnvironmentVariable(\"domestic-payment-id\", data.Data.DomesticPaymentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"ConsentId\":\"{{domestic-payment-consent-id}}\",\n\t\t\"Initiation\":{\n\t\t\t\"InstructionIdentification\":\"INSTRUCTION-ID\",\n\t\t\t\"EndToEndIdentification\":\"END-TO-END-ID\",\n\t\t\t\"InstructedAmount\":{\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\":\"EUR\"\n\t\t\t},\n\t\t\t\"DebtorAccount\": {\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{debtor-account}}\",\n\t\t\t\t\"Name\":\"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{domestic-creditor-account}}\",\n\t\t\t\t\"Name\":\"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"RemittanceInformation\": {\n\t\t\t\t\"Unstructured\": \"THIS IS A TRANSFER REASON\",\n\t\t\t\t\"Reference\": \"REF123\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/domestic-payments",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Domestic Payment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/domestic-payments/{{domestic-payment-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-payments",
+								"{{domestic-payment-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Domestic Scheduled Payments",
+			"item": [
+				{
+					"name": "Create Domestic Scheduled Payment Consent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3044a77c-3f90-46fa-bbdb-1adc1b866e3b",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if (data.Data !== undefined) {",
+									"   postman.setEnvironmentVariable(\"domestic-scheduled-payment-consent-id\", data.Data.ConsentId);",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"Permission\":\"Create\",\n\t\t\"Initiation\":{\n\t\t\t\"InstructionIdentification\":\"INSTRUCTION-ID\",\n\t\t\t\"EndToEndIdentification\":\"END-TO-END-ID\",\n\t\t\t\"RequestedExecutionDateTime\":\"2030-12-01T00:00:00.0000Z\",\n\t\t\t\"InstructedAmount\":{\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\":\"EUR\"\n\t\t\t},\n\t\t\t\"DebtorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{debtor-account}}\",\n\t\t\t\t\"Name\":\"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{domestic-creditor-account}}\",\n\t\t\t\t\"Name\":\"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"RemittanceInformation\": {\n\t\t\t\t\"Unstructured\": \"THIS IS A TRANSFER REASON\",\n\t\t\t\t\"Reference\": \"REF123\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/domestic-scheduled-payment-consents",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-scheduled-payment-consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Domestic Scheduled Payment Consent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/domestic-scheduled-payment-consents/{{domestic-scheduled-payment-consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-scheduled-payment-consents",
+								"{{domestic-scheduled-payment-consent-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Domestic Scheduled Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e2e1542c-5cfe-46d5-831a-396a96434b75",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if(data.Data !== undefined)",
+									"   postman.setEnvironmentVariable(\"domestic-scheduled-payment-id\", data.Data.DomesticScheduledPaymentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"ConsentId\":\"{{domestic-scheduled-payment-consent-id}}\",\n\t\t\"Initiation\":{\n\t\t\t\"InstructionIdentification\":\"INSTRUCTION-ID\",\n\t\t\t\"EndToEndIdentification\":\"END-TO-END-ID\",\n\t\t\t\"RequestedExecutionDateTime\":\"2030-12-01T00:00:00.0000Z\",\n\t\t\t\"InstructedAmount\":{\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\":\"EUR\"\n\t\t\t},\n\t\t\t\"DebtorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{debtor-account}}\",\n\t\t\t\t\"Name\":\"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{domestic-creditor-account}}\",\n\t\t\t\t\"Name\":\"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"RemittanceInformation\": {\n\t\t\t\t\"Unstructured\": \"THIS IS A TRANSFER REASON\",\n\t\t\t\t\"Reference\": \"REF123\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/domestic-scheduled-payments",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-scheduled-payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Domestic Scheduled Payment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/domestic-scheduled-payments/{{domestic-scheduled-payment-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-scheduled-payments",
+								"{{domestic-scheduled-payment-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Domestic Standing Orders",
+			"item": [
+				{
+					"name": "Create Domestic Standing Order Consent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "935daee9-d247-46d3-81f4-3d7e2f2c178b",
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"if (data.Data !== undefined) {\r",
+									"   postman.setEnvironmentVariable(\"domestic-standing-order-consent-id\", data.Data.ConsentId);\r",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"Permission\":\"Create\",\n\t\t\"Initiation\":{\n\t\t\t\"Frequency\": \"IntrvlMnthDay:01:01\",\n\t\t\t\"NumberOfPayments\": \"6\",\n\t\t\t\"FirstPaymentDateTime\":\"2022-1-01T00:00:00\",\n\t\t\t\"FirstPaymentAmount\":{\n\t\t\t\t\"Amount\":\"1.01\",\n\t\t\t\t\"Currency\":\"EUR\"\n\t\t\t},\n\t\t\t\"DebtorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{debtor-account}}\",\n\t\t\t\t\"Name\":\"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{domestic-creditor-account}}\",\n\t\t\t\t\"Name\":\"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"Reference\": \"REF123\"\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/domestic-standing-order-consents",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-standing-order-consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Domestic Standing Order Consent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/domestic-standing-order-consents/{{domestic-standing-order-consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-standing-order-consents",
+								"{{domestic-standing-order-consent-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Domestic Standing Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02c3c71f-d5b3-4bcd-a5d6-1212c9b7672b",
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"if(data.Data !== undefined)\r",
+									"   postman.setEnvironmentVariable(\"domestic-standing-order-id\", data.Data.DomesticStandingOrderId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"ConsentId\":\"{{domestic-standing-order-consent-id}}\",\n\t\t\"Initiation\":{\n\t\t\t\"Frequency\": \"IntrvlMnthDay:01:01\",\n\t\t\t\"NumberOfPayments\": \"6\",\n\t\t\t\"FirstPaymentDateTime\":\"2022-1-01T00:00:00\",\n\t\t\t\"FirstPaymentAmount\":{\n\t\t\t\t\"Amount\":\"1.01\",\n\t\t\t\t\"Currency\":\"EUR\"\n\t\t\t},\n\t\t\t\"DebtorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{debtor-account}}\",\n\t\t\t\t\"Name\":\"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\":{\n\t\t\t\t\"SchemeName\":\"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\":\"{{domestic-creditor-account}}\",\n\t\t\t\t\"Name\":\"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"Reference\": \"REF123\"\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/domestic-standing-orders",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-standing-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Domestic Standing Order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/domestic-standing-orders/{{domestic-standing-order-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"domestic-standing-orders",
+								"{{domestic-standing-order-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "FilePayments",
+			"item": [
+				{
+					"name": "Create File Payment Consent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0d338072-6880-4746-acb0-5f52ca56a4aa",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if (data.Data !== undefined) {",
+									"   postman.setEnvironmentVariable(\"file-payment-consent-id\", data.Data.ConsentId);",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "958b8a59-48e1-4bc7-be34-45b315e0e414",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Data\": {\n        \"Initiation\": {\n            \"FileType\": \"GR.NBG.pain.001.001.03\",\n            \"FileHash\": \"{{file-hash}}\",\n            \"FileReference\": \"REF123\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/file-payment-consents",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"file-payment-consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get File Payment Consent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/file-payment-consents/{{file-payment-consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"file-payment-consents",
+								"{{file-payment-consent-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Consent File XML",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "08fe06f7-77e7-466d-a614-cdb6f183359e",
+								"exec": [
+									"var privateKey = pm.environment.get(\"certificate-private-key\");\r",
+									"var filePaymentData = pm.environment.get(\"file-payment\");\r",
+									"var Property = require('postman-collection').Property;\r",
+									"\r",
+									"var runit = function(){\r",
+									"    //loading RSA JWT library\r",
+									"    var navigator = {};\r",
+									"    var window = {};\r",
+									"    eval(postman.getGlobalVariable(\"RSAJS\"));\r",
+									"    \r",
+									"    if (privateKey === undefined || privateKey === \"\") return;\r",
+									"    \r",
+									"    if (pm.request.body === undefined || pm.request.body === \"\") return;\r",
+									"    \r",
+									"    //prepare head\r",
+									"    var oHeader = {\r",
+									"        \"alg\": \"PS256\", \r",
+									"        \"typ\": \"JOSE\",\r",
+									"        \"cty\": \"application/json\",\r",
+									"        \"http://openbanking.org.uk/iat\": ~~(Date.now() / 1000),\r",
+									"        \"http://openbanking.org.uk/iss\": \"L=Athens, SERIALNUMBER=7101 0019 2100 0024, CN=NATIONAL BANK OF GREECE S.A., OID.2.5.4.97=PSDGR-BOG-094014201, O=NATIONAL BANK OF GREECE S.A., C=GR\",\r",
+									"        \"crit\": [\"http://openbanking.org.uk/iat\", \"http://openbanking.org.uk/iss\", \"http://openbanking.org.uk/tan\"]\r",
+									"    };\r",
+									"    var sHeader = JSON.stringify(oHeader);\r",
+									"    \r",
+									"    //Creating Signature\r",
+									"    var sJWT = KJUR.jws.JWS.sign(\"PS256\", sHeader, filePaymentData, privateKey);\r",
+									"    var detachedJWT = sJWT.split(\".\",1)+\"..\" + sJWT.split(\".\")[2];\r",
+									"    pm.environment.set(\"signature\", detachedJWT);\r",
+									"}\r",
+									"\r",
+									"runit(); \r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{file-payment}}",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/file-payment-consents/{{consent-id}}/file",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"file-payment-consents",
+								"{{consent-id}}",
+								"file"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Consent Payment File",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/xml",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/file-payment-consents/{{file-payment-consent-id}}/file",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"file-payment-consents",
+								"{{file-payment-consent-id}}",
+								"file"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create File Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "49bf5958-c837-4534-af7b-c8a7e206bfb4",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if(data.Data !== undefined)",
+									"   postman.setEnvironmentVariable(\"file-payment-id\", data.Data.FilePaymentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Data\": {\n    \t\"ConsentId\": \"{{file-payment-consent-id}}\",\n        \"Initiation\": {\n            \"FileType\": \"GR.NBG.pain.001.001.03\",\n            \"FileHash\": \"{{file-hash}}\",\n            \"FileReference\": \"REF123\"\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/file-payments",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"file-payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get File Payment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{host}}/file-payments/{{file-payment-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"file-payments",
+								"{{file-payment-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get File Payment Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/pdf",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/file-payments/{{file-payment-id}}/report-file",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"file-payments",
+								"{{file-payment-id}}",
+								"report-file"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4170a312-93d7-4bae-ab62-cba7c447f526",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e878d9af-4705-4ed0-8ee0-d9201136a92c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "International Payments",
+			"item": [
+				{
+					"name": "Create International Payment Consent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9c5bb4b5-5299-4dfe-ad46-569bc9df8f3e",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if(data.Data !== undefined) {",
+									"   postman.setEnvironmentVariable(\"international-payment-consent-id\", data.Data.ConsentId);",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);",
+									"}",
+									"   "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"Initiation\": {\n\t\t\t\"InstructionIdentification\": \"INSTRUCTION-ID\",\n\t\t\t\"EndToEndIdentification\": \"END-TO-END-ID\",\n\t\t\t\"InstructionPriority\": \"Normal\",\n\t\t\t\"Purpose\": \"BKDF\",\n\t\t\t\"ChargeBearer\": \"Shared\",\n\t\t\t\"CurrencyOfTransfer\": \"GBP\",\n\t\t\t\"InstructedAmount\": {\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\": \"GBP\"\n\t\t\t},\n\t\t\t\"DebtorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{debtor-account}}\",\n\t\t\t\t\"Name\": \"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{international-creditor-account}}\",\n\t\t\t\t\"Name\": \"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAgent\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.BICFI\",\n\t\t\t\t\"Identification\": \"{{creditor-agent-identification}}\"\n\t\t\t},\n\t\t\t\"RemittanceInformation\": {\n\t\t\t\t\"Unstructured\": \"THIS IS A TRANSFER REASON\",\n\t\t\t\t\"Reference\": \"REF123\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/international-payment-consents",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-payment-consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get International Payment Consent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/international-payment-consents/{{international-payment-consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-payment-consents",
+								"{{international-payment-consent-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Funds",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/international-payment-consents/{{international-payment-consent-id}}/funds-confirmation",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-payment-consents",
+								"{{international-payment-consent-id}}",
+								"funds-confirmation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create International Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "081727f2-20fc-42c3-8c11-0e8dc5b96d73",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if(data.Data !== undefined)",
+									"   postman.setEnvironmentVariable(\"international-payment-id\", data.Data.InternationalPaymentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"ConsentId\":\"{{international-payment-consent-id}}\",\n\t\t\"Initiation\": {\n\t\t\t\"InstructionIdentification\": \"INSTRUCTION-ID\",\n\t\t\t\"EndToEndIdentification\": \"END-TO-END-ID\",\n\t\t\t\"InstructionPriority\": \"Normal\",\n\t\t\t\"Purpose\": \"BKDF\",\n\t\t\t\"ChargeBearer\": \"Shared\",\n\t\t\t\"CurrencyOfTransfer\": \"GBP\",\n\t\t\t\"InstructedAmount\": {\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\": \"GBP\"\n\t\t\t},\n\t\t\t\"DebtorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{debtor-account}}\",\n\t\t\t\t\"Name\": \"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{international-creditor-account}}\",\n\t\t\t\t\"Name\": \"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAgent\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.BICFI\",\n\t\t\t\t\"Identification\": \"{{creditor-agent-identification}}\"\n\t\t\t},\n\t\t\t\"RemittanceInformation\": {\n\t\t\t\t\"Unstructured\": \"THIS IS A TRANSFER REASON\",\n\t\t\t\t\"Reference\": \"REF123\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/international-payments",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get International Payment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/international-payments/{{international-payment-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-payments",
+								"{{international-payment-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "International Scheduled Payments",
+			"item": [
+				{
+					"name": "Create International Scheduled Payment Consent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3e231837-7966-4f67-8c4c-5588c430eba4",
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"if(data.Data !== undefined){\r",
+									"   postman.setEnvironmentVariable(\"international-scheduled-payment-consent-id\", data.Data.ConsentId); \r",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);\r",
+									"}\r",
+									"   "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"Permission\":\"Create\",\n\t\t\"Initiation\": {\n\t\t\t\"InstructionIdentification\": \"INSTRUCTION-ID\",\n\t\t\t\"EndToEndIdentification\": \"END-TO-END-ID\",\n\t\t\t\"InstructionPriority\": \"Normal\",\n\t\t\t\"Purpose\": \"BKDF\",\n\t\t\t\"ChargeBearer\": \"Shared\",\n\t\t\t\"RequestedExecutionDateTime\":\"2030-12-01T00:00:00.0000Z\",\n\t\t\t\"CurrencyOfTransfer\": \"GBP\",\n\t\t\t\"InstructedAmount\": {\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\": \"GBP\"\n\t\t\t},\n\t\t\t\"DebtorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{debtor-account}}\",\n\t\t\t\t\"Name\": \"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{international-creditor-account}}\",\n\t\t\t\t\"Name\": \"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAgent\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.BICFI\",\n\t\t\t\t\"Identification\": \"{{creditor-agent-identification}}\"\n\t\t\t},\n\t\t\t\"RemittanceInformation\": {\n\t\t\t\t\"Unstructured\": \"THIS IS A TRANSFER REASON\",\n\t\t\t\t\"Reference\": \"REF123\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/international-scheduled-payment-consents",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-scheduled-payment-consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get International Scheduled Payment Consent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/international-scheduled-payment-consents/{{international-scheduled-payment-consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-scheduled-payment-consents",
+								"{{international-scheduled-payment-consent-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm International Scheduled Payment Funds",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/international-scheduled-payment-consents/{{international-scheduled-payment-consent-id}}/funds-confirmation",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-scheduled-payment-consents",
+								"{{international-scheduled-payment-consent-id}}",
+								"funds-confirmation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create International Scheduled Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "71506a49-722d-4cb1-829c-bdd26f86a6c2",
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"if(data.Data !== undefined)\r",
+									"   postman.setEnvironmentVariable(\"international-scheduled-payment-id\", data.Data.InternationalScheduledPaymentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"ConsentId\":\"{{international-scheduled-payment-consent-id}}\",\n\t\t\"Initiation\": {\n\t\t\t\"InstructionIdentification\": \"INSTRUCTION-ID\",\n\t\t\t\"EndToEndIdentification\": \"END-TO-END-ID\",\n\t\t\t\"InstructionPriority\": \"Normal\",\n\t\t\t\"Purpose\": \"BKDF\",\n\t\t\t\"ChargeBearer\": \"Shared\",\n\t\t\t\"RequestedExecutionDateTime\":\"2030-12-01T00:00:00.0000Z\",\n\t\t\t\"CurrencyOfTransfer\": \"GBP\",\n\t\t\t\"InstructedAmount\": {\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\": \"GBP\"\n\t\t\t},\n\t\t\t\"DebtorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{debtor-account}}\",\n\t\t\t\t\"Name\": \"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{international-creditor-account}}\",\n\t\t\t\t\"Name\": \"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAgent\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.BICFI\",\n\t\t\t\t\"Identification\": \"{{creditor-agent-identification}}\"\n\t\t\t},\n\t\t\t\"RemittanceInformation\": {\n\t\t\t\t\"Unstructured\": \"THIS IS A TRANSFER REASON\",\n\t\t\t\t\"Reference\": \"REF123\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/international-scheduled-payments",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-scheduled-payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get International Scheduled Payment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/international-scheduled-payments/{{international-scheduled-payment-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-scheduled-payments",
+								"{{international-scheduled-payment-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "International Standing Orders",
+			"item": [
+				{
+					"name": "Create International Standing Order Consent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4fbf72a-2bc0-4cd6-b3aa-4d083982d064",
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"if(data.Data !== undefined) {\r",
+									"   postman.setEnvironmentVariable(\"international-standing-order-consent-id\", data.Data.ConsentId);\r",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);\r",
+									"}\r",
+									"   "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"Permission\":\"Create\",\n\t\t\"Initiation\":{\n\t\t\t\"Frequency\": \"IntrvlMnthDay:01:01\",\n\t\t\t\"Reference\": \"REF123\",\n\t\t\t\"NumberOfPayments\": 6,\n\t\t\t\"FirstPaymentDateTime\": \"2022-01-02T00:00:00\",\n\t\t\t\"Purpose\": \"BKDF\",\n\t\t\t\"ChargeBearer\": \"Shared\",\n\t\t\t\"CurrencyOfTransfer\": \"GBP\",\n\t\t\t\"InstructedAmount\": {\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\": \"GBP\"\n\t\t\t},\n\t\t\t\"DebtorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{debtor-account}}\",\n\t\t\t\t\"Name\": \"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{international-creditor-account}}\",\n\t\t\t\t\"Name\": \"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAgent\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.BICFI\",\n\t\t\t\t\"Identification\": \"{{creditor-agent-identification}}\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/international-standing-order-consents",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-standing-order-consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get International Standing Order Consent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/international-standing-order-consents/{{international-standing-order-consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-standing-order-consents",
+								"{{international-standing-order-consent-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create International Standing Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5ca30dcc-fdf4-47b6-907d-22a391e8d992",
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"if(data.Data !== undefined)\r",
+									"   postman.setEnvironmentVariable(\"international-standing-order-id\", data.Data.InternationalStandingOrderId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-idempotency-key",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "x-jws-signature",
+								"value": "{{signature}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Data\":{\n\t\t\"ConsentId\":\"{{international-standing-order-consent-id}}\",\n\t\t\"Initiation\":{\n\t\t\t\"Frequency\": \"IntrvlMnthDay:01:01\",\n\t\t\t\"Reference\": \"REF123\",\n\t\t\t\"NumberOfPayments\": 6,\n\t\t\t\"FirstPaymentDateTime\": \"2022-01-02T00:00:00\",\n\t\t\t\"Purpose\": \"BKDF\",\n\t\t\t\"ChargeBearer\": \"Shared\",\n\t\t\t\"CurrencyOfTransfer\": \"GBP\",\n\t\t\t\"InstructedAmount\": {\n\t\t\t\t\"Amount\": \"1.01\",\n\t\t\t\t\"Currency\": \"GBP\"\n\t\t\t},\n\t\t\t\"DebtorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{debtor-account}}\",\n\t\t\t\t\"Name\": \"{{debtor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAccount\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.IBAN\",\n\t\t\t\t\"Identification\": \"{{international-creditor-account}}\",\n\t\t\t\t\"Name\": \"{{creditor-name}}\"\n\t\t\t},\n\t\t\t\"CreditorAgent\": {\n\t\t\t\t\"SchemeName\": \"UK.OBIE.BICFI\",\n\t\t\t\t\"Identification\": \"{{creditor-agent-identification}}\"\n\t\t\t}\n\t\t}\n\t},\n\t\"Risk\":{}\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/international-standing-orders",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-standing-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get International Standing Order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/international-standing-orders/{{international-standing-order-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"international-standing-orders",
+								"{{international-standing-order-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessToken",
+				"value": "0605db019c8cb8bd3f47eebe51409250881044404fdbb86bcbc3bf31c79b9630",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "Bearer",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "79215053-c84c-46ee-b5b0-75f8a304b422",
+				"type": "text/javascript",
+				"exec": [
+					"var privateKey = pm.environment.get(\"certificate-private-key\");",
+					"var Property = require('postman-collection').Property;",
+					"",
+					"var runit = function () {",
+					"    //loading RSA JWT library",
+					"    var navigator = {};",
+					"    var window = {};",
+					"    eval(postman.getGlobalVariable(\"RSAJS\"));",
+					"",
+					"    if (privateKey === undefined || privateKey === \"\") return;",
+					"",
+					"    //prepare head",
+					"    var oHeader = {",
+					"        \"alg\": \"PS256\",",
+					"        \"typ\": \"JOSE\",",
+					"        \"cty\": \"application/json\",",
+					"        \"http://openbanking.org.uk/iat\": ~~(Date.now() / 1000),",
+					"        \"http://openbanking.org.uk/iss\": \"L=ATHENS, SERIALNUMBER=7101 0019 1790 0013, CN=NATIONAL BANK OF GREECE S.A., OU=INFORMATION TECHNOLOGY, OID.2.5.4.97=PSDGR-BOG-094014201, O=NATIONAL BANK OF GREECE S.A., C=GR\",",
+					"        \"crit\": [\"http://openbanking.org.uk/iat\", \"http://openbanking.org.uk/iss\", \"http://openbanking.org.uk/tan\"]",
+					"    };",
+					"    var sHeader = JSON.stringify(oHeader);",
+					"",
+					"    if (pm.request.method !== \"POST\" && pm.request.method !== \"PUT\" && pm.request.method !== \"PATCH\") return;",
+					"    if (pm.request.body === undefined || pm.request.body === \"\") return;",
+					"",
+					"    //prepare pody",
+					"    var oRaw = pm.request.body.raw",
+					"    var oData = JSON.parse(Property.replaceSubstitutions(pm.request.body.raw, pm.variables.toObject()));",
+					"    var sPayload = JSON.stringify(oData);",
+					"",
+					"    //Creating Signature",
+					"    var sJWT = KJUR.jws.JWS.sign(\"PS256\", sHeader, sPayload, privateKey);",
+					"    var detachedJWT = sJWT.split(\".\", 1) + \"..\" + sJWT.split(\".\")[2];",
+					"    pm.environment.set(\"signature\", detachedJWT);",
+					"}",
+					"",
+					"//download forgeJS from web and set varible",
+					"if (!pm.globals.has(\"RSAJS\")) {",
+					"    pm.sendRequest(\"https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.12/jsrsasign-all-min.js\", function (err, res) {",
+					"        if (err) {",
+					"            console.log(err);",
+					"        }",
+					"        else {",
+					"            pm.globals.set(\"RSAJS\", res.text());",
+					"            runit();",
+					"        }",
+					"    })",
+					"}",
+					"else {",
+					"    runit();",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "986d1f99-6b84-4351-a6b6-cbd2d9140552",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
