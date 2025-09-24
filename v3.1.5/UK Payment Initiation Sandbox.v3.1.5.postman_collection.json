@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "54bf013a-6f99-41d2-accd-91218ba1eb33",
+		"_postman_id": "5e5c1ce4-e5fd-4a5b-8376-97e140c86142",
 		"name": "UK Payment Initiation Sandbox - v.3.1.5",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -121,7 +121,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ac38fca2-6319-4c09-9953-661a51414b0f",
+													 
 								"exec": [
 									""
 								],
@@ -161,8 +161,8 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+								
 		},
 		{
 			"name": "Domestic Payments",
@@ -173,7 +173,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2ccb82a0-c103-41dd-a11d-65baa2aedd28",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if(data.Data !== undefined){",
@@ -244,7 +244,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a45fa25b-dabf-4766-accd-a592318bd367",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if(data.Data !== undefined)",
@@ -339,7 +339,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "006c6e00-0c89-4fd5-a32d-a02ae9209e2a",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if (data.Data !== undefined)",
@@ -445,8 +445,8 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+								
 		},
 		{
 			"name": "Domestic Scheduled Payments",
@@ -457,7 +457,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3044a77c-3f90-46fa-bbdb-1adc1b866e3b",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if (data.Data !== undefined) {",
@@ -572,7 +572,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e2e1542c-5cfe-46d5-831a-396a96434b75",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if(data.Data !== undefined)",
@@ -678,8 +678,8 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+								
 		},
 		{
 			"name": "Domestic Standing Orders",
@@ -690,7 +690,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "935daee9-d247-46d3-81f4-3d7e2f2c178b",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);\r",
 									"if (data.Data !== undefined) {\r",
@@ -805,7 +805,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "02c3c71f-d5b3-4bcd-a5d6-1212c9b7672b",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);\r",
 									"if(data.Data !== undefined)\r",
@@ -911,8 +911,8 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+								
 		},
 		{
 			"name": "FilePayments",
@@ -923,7 +923,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0d338072-6880-4746-acb0-5f52ca56a4aa",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if (data.Data !== undefined) {",
@@ -938,7 +938,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "958b8a59-48e1-4bc7-be34-45b315e0e414",
+													 
 								"exec": [
 									""
 								],
@@ -1053,7 +1053,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "08fe06f7-77e7-466d-a614-cdb6f183359e",
+													 
 								"exec": [
 									"var privateKey = pm.environment.get(\"certificate-private-key\");\r",
 									"var filePaymentData = pm.environment.get(\"file-payment\");\r",
@@ -1203,7 +1203,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "49bf5958-c837-4534-af7b-c8a7e206bfb4",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if(data.Data !== undefined)",
@@ -1362,7 +1362,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "4170a312-93d7-4bae-ab62-cba7c447f526",
+												   
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -1372,15 +1372,15 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e878d9af-4705-4ed0-8ee0-d9201136a92c",
+												   
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+								
 		},
 		{
 			"name": "International Payments",
@@ -1391,7 +1391,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9c5bb4b5-5299-4dfe-ad46-569bc9df8f3e",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if(data.Data !== undefined) {",
@@ -1547,7 +1547,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "081727f2-20fc-42c3-8c11-0e8dc5b96d73",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);",
 									"if(data.Data !== undefined)",
@@ -1653,8 +1653,8 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+								
 		},
 		{
 			"name": "International Scheduled Payments",
@@ -1665,7 +1665,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3e231837-7966-4f67-8c4c-5588c430eba4",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);\r",
 									"if(data.Data !== undefined){\r",
@@ -1821,7 +1821,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "71506a49-722d-4cb1-829c-bdd26f86a6c2",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);\r",
 									"if(data.Data !== undefined)\r",
@@ -1927,8 +1927,8 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+								
 		},
 		{
 			"name": "International Standing Orders",
@@ -1939,7 +1939,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f4fbf72a-2bc0-4cd6-b3aa-4d083982d064",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);\r",
 									"if(data.Data !== undefined) {\r",
@@ -2054,7 +2054,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5ca30dcc-fdf4-47b6-907d-22a391e8d992",
+													 
 								"exec": [
 									"var data = JSON.parse(responseBody);\r",
 									"if(data.Data !== undefined)\r",
@@ -2160,16 +2160,169 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "VoP",
+			"item": [
+				{
+					"name": "Payee Verifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if(data.Data !== undefined)",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/payee-verifications/{{consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"payee-verifications",
+								"{{consent-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Payee Verifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if(data.Data !== undefined)",
+									"   postman.setEnvironmentVariable(\"consent-id\", data.Data.ConsentId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Client-Id",
+								"value": "{{client-id}}",
+								"type": "text"
+							},
+							{
+								"key": "sandbox-id",
+								"value": "{{sandbox-id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-fapi-interaction-id",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/bulk-payee-verifications/{{consent-id}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"bulk-payee-verifications",
+								"{{consent-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+								
 		}
 	],
 	"auth": {
 		"type": "oauth2",
 		"oauth2": [
 			{
+				"key": "grant_type",
+				"value": "client_credentials",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "UK Payment Initiation Sandbox",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "{{scope}}",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{client-secret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{client-id}}",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "{{access-token-url}}",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "{{auth-url}}",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "{{callback-url}}",
+				"type": "string"
+			},
+			{
 				"key": "accessToken",
-				"value": "0605db019c8cb8bd3f47eebe51409250881044404fdbb86bcbc3bf31c79b9630",
+				"value": "",
 				"type": "string"
 			},
 			{
@@ -2188,7 +2341,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "79215053-c84c-46ee-b5b0-75f8a304b422",
+												 
 				"type": "text/javascript",
 				"exec": [
 					"var privateKey = pm.environment.get(\"certificate-private-key\");",
@@ -2248,13 +2401,13 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "986d1f99-6b84-4351-a6b6-cbd2d9140552",
+												 
 				"type": "text/javascript",
 				"exec": [
 					""
 				]
 			}
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
+							  
 }
